@@ -2,7 +2,6 @@ package com.store.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
-
 import com.store.model.User;
 import java.util.Optional;
 
@@ -10,23 +9,32 @@ import java.util.Optional;
 @Component
 public class Register {
     public boolean register(User user) {
-        // TODO: implement register with comparing password and confirm password,
-        // validate name and save user to database
-        if (!user.getPassword().equals(user.getConfirmPassword())) {
+        Optional<User> optionalUser = Optional.ofNullable(user);
+
+        if (optionalUser.map(User::getLogin)
+                .filter(login -> login.length() >= 3).isEmpty()) {
+            System.out.println("Login is too short or empty");
+            return false;
+        }
+
+        if (optionalUser.map(User::getPassword)
+                .filter(password -> password.length() >= 8).isEmpty()) {
+            System.out.println("Password is too short or empty");
+            return false;
+        }
+
+        if (optionalUser.map(User::getConfirmPassword).isEmpty()) {
+            System.out.println("Confirm password is empty");
+            return false;
+        }
+
+        if (!optionalUser.map(User::getPassword)
+                .equals(optionalUser.map(User::getConfirmPassword))) {
             System.out.println("Passwords do not match");
             return false;
         }
-        if (user.getLogin().length() < 3) {
-            System.out.println("Login is too short");
-            return false;
-        }
-        if (user.getPassword().length() < 8) {
-            System.out.println("Password is too short");
-            return false;
-        }
-        System.out.println("User " + user.getLogin() + " registered");
 
+        System.out.println("User " + optionalUser.map(User::getLogin).orElse("") + " registered");
         return true;
     }
-
 }

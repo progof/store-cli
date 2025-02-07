@@ -5,7 +5,6 @@ import org.springframework.stereotype.Component;
 
 import com.store.core.ICore;
 import com.store.gui.IAuthGUI;
-import com.store.model.User;
 import com.store.service.Register;
 
 @RequiredArgsConstructor
@@ -25,7 +24,7 @@ public class Core implements ICore {
                     authGUI.login();
                     break;
                 case "2":
-                    register(this.authGUI.register());
+                    register.register(this.authGUI.register());
                     break;
                 case "3":
                     running = false;
@@ -36,11 +35,6 @@ public class Core implements ICore {
             }
         }
 
-    }
-
-    private void register(User register2) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'register'");
     }
 
 }
