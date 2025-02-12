@@ -13,11 +13,9 @@ public class User {
     private int id;
     private String login;
     private String password;
-    private String confirmPassword;
 
-    public User(String login, String password, String confirmPassword) {
+    public User(String login, String password) {
         this.login = login;
         this.password = password;
-        this.confirmPassword = confirmPassword;
     }
 }

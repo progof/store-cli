@@ -3,38 +3,41 @@ package com.store.service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import com.store.model.User;
+import com.store.database.impl.UserRepository;
 import java.util.Optional;
 
 @RequiredArgsConstructor
 @Component
 public class Register {
-    public boolean register(User user) {
-        Optional<User> optionalUser = Optional.ofNullable(user);
+    private final UserRepository userRepository;
 
-        if (optionalUser.map(User::getLogin)
-                .filter(login -> login.length() >= 3).isEmpty()) {
+    public boolean register(User user) {
+        // Проверка логина
+        if (user.getLogin() == null || user.getLogin().length() < 3) {
             System.out.println("Login is too short or empty");
             return false;
         }
 
-        if (optionalUser.map(User::getPassword)
-                .filter(password -> password.length() >= 8).isEmpty()) {
+        // Проверка пароля
+        if (user.getPassword() == null || user.getPassword().length() < 8) {
             System.out.println("Password is too short or empty");
             return false;
         }
 
-        if (optionalUser.map(User::getConfirmPassword).isEmpty()) {
-            System.out.println("Confirm password is empty");
+        // Проверка наличия пользователя в базе
+
+        Optional<User> userOptional = userRepository.getUser(user.getLogin());
+        if (userOptional.isPresent()) {
+            System.out.println("User with login " + user.getLogin() + " already exists");
             return false;
         }
 
-        if (!optionalUser.map(User::getPassword)
-                .equals(optionalUser.map(User::getConfirmPassword))) {
-            System.out.println("Passwords do not match");
-            return false;
-        }
+        // Регистрация пользователя
 
-        System.out.println("User " + optionalUser.map(User::getLogin).orElse("") + " registered");
+        userRepository.register(user);
+
+        // Если все проверки пройдены
+        System.out.println("User " + user.getLogin() + " registered successfully");
         return true;
     }
 }

@@ -5,6 +5,7 @@ import org.springframework.stereotype.Component;
 
 import com.store.core.ICore;
 import com.store.gui.IAuthGUI;
+import com.store.gui.IStoreGUI;
 import com.store.service.Register;
 
 @RequiredArgsConstructor
@@ -21,7 +22,9 @@ public class Core implements ICore {
         while (running) {
             switch (authGUI.showMenu()) {
                 case "1":
+
                     authGUI.login();
+
                     break;
                 case "2":
                     register.register(this.authGUI.register());
