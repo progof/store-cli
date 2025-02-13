@@ -29,7 +29,7 @@ public class DebugGUI {
         List<Product> products = debugDB.viewProductsData();
         for (Product product : products) {
             System.out.println(
-                    "ID:" + product.getId() + ". " + product.getName() + " - Price: " +
+                    "\nID:" + product.getId() + ". " + product.getName() + " - Price: " +
                             product.getPrice() + " PLN"
                             + " - Available: " + product.getStock());
 
@@ -40,7 +40,7 @@ public class DebugGUI {
         List<User> users = debugDB.viewUsersData();
         for (User user : users) {
             System.out.println(
-                    "ID:" + user.getId() + ". " + user.getUsername() + " - Password: " +
+                    "\nID:" + user.getId() + ". " + user.getUsername() + " - Password: " +
                             user.getPassword());
         }
     }
